@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #2c0e37 0%, #4a1c40 50%, #2c0e37 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Latar Belakang Bintang */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Hati Jatuh */
+        .falling-heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.6);
+            font-size: 20px;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Container Utama */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 500px;
+            perspective: 1000px;
+        }
+
+        /* Gift Box -的状态 Awal */
+        .gift-container {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gift-container:hover {
+            transform: scale(1.05);
+        }
+
+        .gift-box {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .gift-box::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: #ffd700;
+            transform: translateY(-50%);
+        }
+
+        .gift-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 15px;
+            height: 100%;
+            background: #ffd700;
+            transform: translateX(-50%);
+        }
+
+        . ribbon {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            width: 20px;
+            height: 80px;
+            background: #ff8fab;
+            transform: translateX(-50%);
+        }
+
+        .gift-text {
+            color: white;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-family: 'Dancing Script', cursive;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Surat (Tersembunyi) */
+        .letter {
+            display: none;
+            background: #fffaf0;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            transform: rotateX(90deg);
+            transform-origin: top;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+        }
+
+        .letter.open {
+            display: block;
+            transform: rotateX(0deg);
+            animation: openLetter 1s forwards;
+        }
+
+        @keyframes openLetter {
+            0% { transform: rotateX(90deg) scale(0.8); opacity: 0; }
+            100% { transform: rotateX(0deg) scale(1); opacity: 1; }
+        }
+
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(135deg, #f5f5f5 50%, transparent 50%),
+                        linear-gradient(225deg, #f5f5f5 50%, transparent 50%);
+            background-size: 50% 100%;
+        }
+
+        /* Konten Surat */
+        .letter h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #2c0e37;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .letter .age-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #c44569;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .letter .message {
+            font-family: 'Playfair Display', serif;
+            text-align: justify;
+            line-height: 1.9;
+            color: #444;
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        .letter .message p {
+            margin-bottom: 20px;
+        }
+
+        .letter .highlight {
+            color: #c44569;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        .letter .closing {
+            margin-top: 30px;
+            text-align: right;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #2c0e37;
+        }
+
+        .letter .signature {
+            margin-top: 10px;
+            text-align: right;
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        /* Efek Kilauan (Sparkle) */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .sparkle::before, .sparkle::after {
+            content: '✨';
+            position: absolute;
+            font-size: 15px;
+            animation: sparkleAnim 0.5s forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1) rotate(180deg); opacity: 0; }
+        }
+
+        /* Loader Sederhana */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #2c0e37;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s;
+        }
+
+        .loader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-text {
+            color: white;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loader Halaman -->
+    <div class="loader" id="loader">
+        <div class="loader-text">Momentdong...</div>
+    </div>
+
+    <!-- Bintang Latar Belakang -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Container Utama -->
+    <div class="container">
+        
+        <!-- Gift Box (Diklik untuk membuka) -->
+        <div class="gift-container" id="giftContainer">
+            <div class="gift-box">
+                <div class="ribbon"></div>
+            </div>
+            <p class="gift-text">Klik untuk membuka hadiah mu💝</p>
+        </div>
+
+        <!-- Surat Ucapan -->
+        <div class="letter" id="letter">
+            <h1>Selamat Ulang Tahun 🎂</h1>
+            <div class="age-title">Yang ke-17
+            KIKI CINTAAKUUU</div>
+            
+            <div class="message">
+                <p>
+                    Hari ini adalah hari yang sangat istimewa karena bertambah lagi satu tahun perjalanan hidupmu. Di usia yang baru ini, aku berharap kamu selalu diberikan kesehatan, kebahagiaan, kemudahan dalam meraih setiap cita-citamu, serta dikelilingi oleh orang-orang yang benar-benar menyayangimu.
+                </p>
+                
+                <p>
+                    Terima kasih karena selama ini sudah menjadi seseorang yang begitu berarti dalam hidupku. Terima kasih untuk setiap perhatian, kesabaran, dukungan, dan semua hal sederhana yang mungkin tidak selalu aku ungkapkan, tetapi selalu aku hargai. Kehadiranmu telah memberi banyak warna dan pelajaran berharga dalam hidupku.
+                </p>
+
+                <p>
+                    Di usia 17 tahun ini, semoga kamu semakin kuat menghadapi setiap tantangan, semakin percaya pada dirimu sendiri, dan semakin dekat dengan semua impian yang ingin kamu capai. Semoga Allah senantiasa menjaga kesehatanmu, menguatkan tubuhmu, menenangkan hatimu, dan memudahkan setiap urusanmu. Semoga setiap hari yang kamu jalani dipenuhi senyum, keberkahan, serta orang-orang yang benar-benar tulus menyayangimu.<span class="highlight">Jangan pernah meragukan betapa berharganya dirimu</span>, karena kamu adalah seseorang yang memiliki hati yang baik dan pantas mendapatkan banyak hal indah dalam hidup mu.
+                </p>
+
+                <p>
+                    Aku tidak berharap hubungan kita selalu berjalan tanpa masalah, tetapi aku berharap kita selalu memiliki alasan untuk tetap saling memahami, saling menghargai, dan bertumbuh menjadi pribadi yang lebih baik bersama.Aku mungkin tidak selalu sempurna dalam memperlakukanmu, tetapi percayalah bahwa di dalam lubuk hatiku yang paling dalam, aku selalu mendoakan yang terbaik untukmu. Aku ingin melihatmu sehat, bahagia, dan berhasil meraih semua impian yang kamu perjuangkan.
+                </p>
+
+                <p>
+                    Selamat bertambah usia, cintaku. Semoga umurmu dipenuhi keberkahan, kesehatan yang tak pernah putus, rezeki yang melimpah, dan kebahagiaan yang selalu menemukan jalannya kepadamu. Tetaplah menjadi pribadi yang baik, kuat, dan istimewa seperti yang selama ini aku kenal.Sekali lagi, selamat ulang tahun.  Feliz cumpleaños! Nurul Qizwah Irwan 🎉✨<br>
+                    </p>
+ 
+                    </p>
+                    Aku bersyukur karena semesta mempertemukanku denganmu. Semoga aku masih diberi kesempatan untuk menemanimu di banyak ulang tahun berikutnya.Maafkan jika ada salahku, dan terima kasih sudah hadir dalam hidupku. Aku sangat bersyukur mengenal dan memilikimu.
+                  </p>  
+
+                  </p>
+                  <span class="highlight">"Kurang-kurangi bakkulnya ya cantiiikk"</span>
+                </p>
+            </div>
+
+            <div class="closing">
+                Bahagia selalu, ya sayaanggg kuu. ❤️
+            </div>
+            <div class="signature">
+                - From Me 💕
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Loader Animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('fade-out');
+                createHearts(); // Mulai animasi hati saat loading selesai
+            }, 1500);
+        });
+
+        // 2. Membuat Bintang Latar Belakang
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // 3. Membuat Hati Jatuh
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('falling-heart');
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }, 600);
+        }
+
+        // 4. Efek Klik Gift Box
+        document.getElementById('giftContainer').addEventListener('click', function() {
+            const container = document.getElementById('giftContainer');
+            const letter = document.getElementById('letter');
+            
+            // Sembunyikan gift box dengan animasi
+            container.style.transition = 'all 0.5s';
+            container.style.transform = 'scale(1.2)';
+            container.style.opacity = '0';
+            
+            setTimeout(() => {
+                container.style.display = 'none';
+                // Tampilkan surat
+                letter.classList.add('open');
+                
+                // Buat efek ledakan hati saat dibuka
+                for(let i = 0; i < 20; i++) {
+                    setTimeout(createHeartExplosion, i * 50);
+                }
+                
+                // Mulai efek sparkle mouse
+                document.addEventListener('mousemove', createSparkle);
+            }, 500);
+        });
+
+        // 5. Effek Explosion Hati
+        function createHeartExplosion() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💖';
+            heart.style.position = 'absolute';
+            heart.style.left = '50%';
+            heart.style.top = '50%';
+            heart.style.fontSize = '20px';
+            heart.style.zIndex = '100';
+            heart.style.transition = 'all 1s ease-out';
+            heart.style.pointerEvents = 'none';
+            document.querySelector('.container').appendChild(heart);
+
+            // Random position
+            setTimeout(() => {
+                const x = (Math.random() - 0.5) * 300;
+                const y = (Math.random() - 0.5) * 300;
+                heart.style.transform = `translate(${x}px, ${y}px) scale(0)`;
+            }, 50);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 1000);
+        }
+
+        // 6. Efek Sparkle Saat Mouse Bergerak
+        function createSparkle(e) {
+            if (Math.random() > 0.9) return; // Hanya beberapa sparkle
+            
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.innerHTML = '✨';
+            sparkle.style.left = e.pageX + 'px';
+            sparkle.style.top = e.pageY + 'px';
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 500);
+        }
+    </script>
+
+</body>
+</html>
